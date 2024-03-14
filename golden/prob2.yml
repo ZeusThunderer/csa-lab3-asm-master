@@ -1,0 +1,439 @@
+source: |-
+    section data:
+        sum: 0
+        fib1: 1
+        fib2: 1
+        max: 4000000 
+        answ: 4613732
+        success: "Answer is correct",0
+    section text:
+        _start:
+            ld r1,fib1      ;r1 = a
+            ld r2,fib2      ;r2 = b
+            ld r3,sum       ;
+            ld r6,max        ;
+        loop:
+            add r4,r0,r1    ;c = a
+            add r1,r1,r2    ;a = a+b
+            add r2,r0,r4    ;b = c
+            blt r6,r1,save   ;if max < a goto end 
+            rem r5,r1,2     ;d = r1%2
+            bnq r5,r0,next  ;if d != 0 goto next
+            add r3,r3,r1    ;sum+=a
+        next:
+            jmp loop
+        save:
+            sw sum,r3
+            ld r2,answ
+            beq r3,r2,print
+            jmp end
+        print:
+            add r2,r0,success
+        loop_print:
+            ld r1,r2
+            sw out,r1
+            add r2,r2,1
+            beq r1,r0,end
+            jmp loop_print
+        end:
+            hlt
+            input: |-
+code: |-
+    [{"opcode": "LD", "addr_type": 2, "args": ["1", 24]},
+    {"opcode": "LD", "addr_type": 2, "args": ["2", 25]},
+    {"opcode": "LD", "addr_type": 2, "args": ["3", 23]},
+    {"opcode": "LD", "addr_type": 2, "args": ["6", 26]},
+    {"opcode": "ADD", "addr_type": 0, "args": ["4", "0", "1"]},
+    {"opcode": "ADD", "addr_type": 0, "args": ["1", "1", "2"]},
+    {"opcode": "ADD", "addr_type": 0, "args": ["2", "0", "4"]},
+    {"opcode": "BLT", "args": ["6", "1", 12]},
+    {"opcode": "REM", "addr_type": 2, "args": ["5", "1", "2"]},
+    {"opcode": "BNQ", "args": ["5", "0", 11]},
+    {"opcode": "ADD", "addr_type": 0, "args": ["3", "3", "1"]},
+    {"opcode": "JMP", "args": [4]},
+    {"opcode": "SW", "addr_type": 2, "args": [23, "3"]},
+    {"opcode": "LD", "addr_type": 2, "args": ["2", 27]},
+    {"opcode": "BEQ", "args": ["3", "2", 16]},
+    {"opcode": "JMP", "args": [22]},
+    {"opcode": "ADD", "addr_type": 2, "args": ["2", "0", 28]},
+    {"opcode": "LD", "addr_type": 1, "args": ["1", "2"]},
+    {"opcode": "SW", "addr_type": 2, "args": ["out", "1"]},
+    {"opcode": "ADD", "addr_type": 2, "args": ["2", "2", "1"]},
+    {"opcode": "BEQ", "args": ["1", "0", 22]},
+    {"opcode": "JMP", "args": [17]},
+    {"opcode": "HLT", "args": []},
+    {"opcode": "DATA", "args": ["0"]},
+    {"opcode": "DATA", "args": ["1"]},
+    {"opcode": "DATA", "args": ["1"]},
+    {"opcode": "DATA", "args": ["4000000"]},
+    {"opcode": "DATA", "args": ["4613732"]},
+    {"opcode": "DATA", "args": ["65"]},
+    {"opcode": "DATA", "args": ["110"]},
+    {"opcode": "DATA", "args": ["115"]},
+    {"opcode": "DATA", "args": ["119"]},
+    {"opcode": "DATA", "args": ["101"]},
+    {"opcode": "DATA", "args": ["114"]},
+    {"opcode": "DATA", "args": ["32"]},
+    {"opcode": "DATA", "args": ["105"]},
+    {"opcode": "DATA", "args": ["115"]},
+    {"opcode": "DATA", "args": ["32"]},
+    {"opcode": "DATA", "args": ["99"]},
+    {"opcode": "DATA", "args": ["111"]},
+    {"opcode": "DATA", "args": ["114"]},
+    {"opcode": "DATA", "args": ["114"]},
+    {"opcode": "DATA", "args": ["101"]},
+    {"opcode": "DATA", "args": ["99"]},
+    {"opcode": "DATA", "args": ["116"]},
+    {"opcode": "DATA", "args": ["0"]}]
+output: |-
+    Answer is correct
+log: |
+    INFO:root:TICK: 0 | IP: 0 |OPCODE  None| ADDR: 0 | ALU_OUT: 0 | R1: 0 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: 0 | Z: 0
+    INFO:root:TICK: 1 | IP: 1 |OPCODE  LD| ADDR: 24 | ALU_OUT: 0 | R1: 1 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: 0 | Z: 0
+    INFO:root:TICK: 2 | IP: 2 |OPCODE  LD| ADDR: 25 | ALU_OUT: 0 | R1: 1 | R2: 1 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: 0 | Z: 0
+    INFO:root:TICK: 3 | IP: 3 |OPCODE  LD| ADDR: 23 | ALU_OUT: 0 | R1: 1 | R2: 1 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: 0 | Z: 0
+    INFO:root:TICK: 4 | IP: 4 |OPCODE  LD| ADDR: 26 | ALU_OUT: 0 | R1: 1 | R2: 1 | R3: 0 | R4: 0 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: 0 | Z: 0
+    INFO:root:TICK: 8 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1 | R1: 1 | R2: 1 | R3: 0 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 12 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2 | R1: 2 | R2: 1 | R3: 0 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 16 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1 | R1: 2 | R2: 1 | R3: 0 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 19 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999998 | R1: 2 | R2: 1 | R3: 0 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 23 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 2 | R2: 1 | R3: 0 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 26 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 2 | R2: 1 | R3: 0 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 30 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2 | R1: 2 | R2: 1 | R3: 2 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 31 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 2 | R1: 2 | R2: 1 | R3: 2 | R4: 1 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 35 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2 | R1: 2 | R2: 1 | R3: 2 | R4: 2 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 39 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3 | R1: 3 | R2: 1 | R3: 2 | R4: 2 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 43 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2 | R1: 3 | R2: 2 | R3: 2 | R4: 2 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 46 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999997 | R1: 3 | R2: 2 | R3: 2 | R4: 2 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 50 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 3 | R2: 2 | R3: 2 | R4: 2 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 53 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 3 | R2: 2 | R3: 2 | R4: 2 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 54 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 3 | R2: 2 | R3: 2 | R4: 2 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 58 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3 | R1: 3 | R2: 2 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 62 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 5 | R1: 5 | R2: 2 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 66 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3 | R1: 5 | R2: 3 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 69 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999995 | R1: 5 | R2: 3 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 73 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 5 | R2: 3 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 76 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 5 | R2: 3 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 77 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 5 | R2: 3 | R3: 2 | R4: 3 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 81 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 5 | R1: 5 | R2: 3 | R3: 2 | R4: 5 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 85 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 8 | R1: 8 | R2: 3 | R3: 2 | R4: 5 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 89 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 5 | R1: 8 | R2: 5 | R3: 2 | R4: 5 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 92 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999992 | R1: 8 | R2: 5 | R3: 2 | R4: 5 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 96 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 8 | R2: 5 | R3: 2 | R4: 5 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 99 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 8 | R2: 5 | R3: 2 | R4: 5 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 103 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 10 | R1: 8 | R2: 5 | R3: 10 | R4: 5 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 104 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 10 | R1: 8 | R2: 5 | R3: 10 | R4: 5 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 108 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 8 | R1: 8 | R2: 5 | R3: 10 | R4: 8 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 112 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 13 | R1: 13 | R2: 5 | R3: 10 | R4: 8 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 116 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 8 | R1: 13 | R2: 8 | R3: 10 | R4: 8 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 119 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999987 | R1: 13 | R2: 8 | R3: 10 | R4: 8 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 123 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 13 | R2: 8 | R3: 10 | R4: 8 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 126 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 13 | R2: 8 | R3: 10 | R4: 8 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 127 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 13 | R2: 8 | R3: 10 | R4: 8 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 131 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 13 | R1: 13 | R2: 8 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 135 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 21 | R1: 21 | R2: 8 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 139 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 13 | R1: 21 | R2: 13 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 142 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999979 | R1: 21 | R2: 13 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 146 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 21 | R2: 13 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 149 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 21 | R2: 13 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 150 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 21 | R2: 13 | R3: 10 | R4: 13 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 154 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 21 | R1: 21 | R2: 13 | R3: 10 | R4: 21 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 158 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 34 | R1: 34 | R2: 13 | R3: 10 | R4: 21 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 162 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 21 | R1: 34 | R2: 21 | R3: 10 | R4: 21 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 165 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999966 | R1: 34 | R2: 21 | R3: 10 | R4: 21 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 169 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 34 | R2: 21 | R3: 10 | R4: 21 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 172 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 34 | R2: 21 | R3: 10 | R4: 21 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 176 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 44 | R1: 34 | R2: 21 | R3: 44 | R4: 21 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 177 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 44 | R1: 34 | R2: 21 | R3: 44 | R4: 21 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 181 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 34 | R1: 34 | R2: 21 | R3: 44 | R4: 34 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 185 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 55 | R1: 55 | R2: 21 | R3: 44 | R4: 34 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 189 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 34 | R1: 55 | R2: 34 | R3: 44 | R4: 34 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 192 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999945 | R1: 55 | R2: 34 | R3: 44 | R4: 34 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 196 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 55 | R2: 34 | R3: 44 | R4: 34 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 199 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 55 | R2: 34 | R3: 44 | R4: 34 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 200 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 55 | R2: 34 | R3: 44 | R4: 34 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 204 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 55 | R1: 55 | R2: 34 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 208 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 89 | R1: 89 | R2: 34 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 212 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 55 | R1: 89 | R2: 55 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 215 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999911 | R1: 89 | R2: 55 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 219 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 89 | R2: 55 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 222 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 89 | R2: 55 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 223 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 89 | R2: 55 | R3: 44 | R4: 55 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 227 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 89 | R1: 89 | R2: 55 | R3: 44 | R4: 89 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 231 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 144 | R1: 144 | R2: 55 | R3: 44 | R4: 89 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 235 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 89 | R1: 144 | R2: 89 | R3: 44 | R4: 89 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 238 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999856 | R1: 144 | R2: 89 | R3: 44 | R4: 89 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 242 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 144 | R2: 89 | R3: 44 | R4: 89 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 245 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 144 | R2: 89 | R3: 44 | R4: 89 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 249 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 188 | R1: 144 | R2: 89 | R3: 188 | R4: 89 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 250 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 188 | R1: 144 | R2: 89 | R3: 188 | R4: 89 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 254 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 144 | R1: 144 | R2: 89 | R3: 188 | R4: 144 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 258 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 233 | R1: 233 | R2: 89 | R3: 188 | R4: 144 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 262 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 144 | R1: 233 | R2: 144 | R3: 188 | R4: 144 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 265 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999767 | R1: 233 | R2: 144 | R3: 188 | R4: 144 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 269 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 233 | R2: 144 | R3: 188 | R4: 144 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 272 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 233 | R2: 144 | R3: 188 | R4: 144 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 273 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 233 | R2: 144 | R3: 188 | R4: 144 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 277 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 233 | R1: 233 | R2: 144 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 281 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 377 | R1: 377 | R2: 144 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 285 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 233 | R1: 377 | R2: 233 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 288 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999623 | R1: 377 | R2: 233 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 292 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 377 | R2: 233 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 295 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 377 | R2: 233 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 296 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 377 | R2: 233 | R3: 188 | R4: 233 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 300 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 377 | R1: 377 | R2: 233 | R3: 188 | R4: 377 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 304 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 610 | R1: 610 | R2: 233 | R3: 188 | R4: 377 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 308 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 377 | R1: 610 | R2: 377 | R3: 188 | R4: 377 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 311 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999390 | R1: 610 | R2: 377 | R3: 188 | R4: 377 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 315 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 610 | R2: 377 | R3: 188 | R4: 377 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 318 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 610 | R2: 377 | R3: 188 | R4: 377 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 322 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 798 | R1: 610 | R2: 377 | R3: 798 | R4: 377 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 323 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 798 | R1: 610 | R2: 377 | R3: 798 | R4: 377 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 327 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 610 | R1: 610 | R2: 377 | R3: 798 | R4: 610 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 331 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 987 | R1: 987 | R2: 377 | R3: 798 | R4: 610 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 335 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 610 | R1: 987 | R2: 610 | R3: 798 | R4: 610 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 338 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3999013 | R1: 987 | R2: 610 | R3: 798 | R4: 610 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 342 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 987 | R2: 610 | R3: 798 | R4: 610 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 345 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 987 | R2: 610 | R3: 798 | R4: 610 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 346 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 987 | R2: 610 | R3: 798 | R4: 610 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 350 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 987 | R1: 987 | R2: 610 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 354 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1597 | R1: 1597 | R2: 610 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 358 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 987 | R1: 1597 | R2: 987 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 361 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3998403 | R1: 1597 | R2: 987 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 365 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 1597 | R2: 987 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 368 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 1597 | R2: 987 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 369 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 1597 | R2: 987 | R3: 798 | R4: 987 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 373 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1597 | R1: 1597 | R2: 987 | R3: 798 | R4: 1597 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 377 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2584 | R1: 2584 | R2: 987 | R3: 798 | R4: 1597 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 381 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1597 | R1: 2584 | R2: 1597 | R3: 798 | R4: 1597 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 384 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3997416 | R1: 2584 | R2: 1597 | R3: 798 | R4: 1597 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 388 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 2584 | R2: 1597 | R3: 798 | R4: 1597 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 391 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 2584 | R2: 1597 | R3: 798 | R4: 1597 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 395 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3382 | R1: 2584 | R2: 1597 | R3: 3382 | R4: 1597 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 396 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 3382 | R1: 2584 | R2: 1597 | R3: 3382 | R4: 1597 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 400 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2584 | R1: 2584 | R2: 1597 | R3: 3382 | R4: 2584 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 404 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 4181 | R1: 4181 | R2: 1597 | R3: 3382 | R4: 2584 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 408 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2584 | R1: 4181 | R2: 2584 | R3: 3382 | R4: 2584 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 411 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3995819 | R1: 4181 | R2: 2584 | R3: 3382 | R4: 2584 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 415 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 4181 | R2: 2584 | R3: 3382 | R4: 2584 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 418 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 4181 | R2: 2584 | R3: 3382 | R4: 2584 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 419 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 4181 | R2: 2584 | R3: 3382 | R4: 2584 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 423 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 4181 | R1: 4181 | R2: 2584 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 427 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 6765 | R1: 6765 | R2: 2584 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 431 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 4181 | R1: 6765 | R2: 4181 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 434 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3993235 | R1: 6765 | R2: 4181 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 438 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 6765 | R2: 4181 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 441 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 6765 | R2: 4181 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 442 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 6765 | R2: 4181 | R3: 3382 | R4: 4181 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 446 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 6765 | R1: 6765 | R2: 4181 | R3: 3382 | R4: 6765 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 450 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 10946 | R1: 10946 | R2: 4181 | R3: 3382 | R4: 6765 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 454 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 6765 | R1: 10946 | R2: 6765 | R3: 3382 | R4: 6765 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 457 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3989054 | R1: 10946 | R2: 6765 | R3: 3382 | R4: 6765 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 461 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 10946 | R2: 6765 | R3: 3382 | R4: 6765 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 464 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 10946 | R2: 6765 | R3: 3382 | R4: 6765 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 468 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 14328 | R1: 10946 | R2: 6765 | R3: 14328 | R4: 6765 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 469 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 14328 | R1: 10946 | R2: 6765 | R3: 14328 | R4: 6765 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 473 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 10946 | R1: 10946 | R2: 6765 | R3: 14328 | R4: 10946 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 477 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 17711 | R1: 17711 | R2: 6765 | R3: 14328 | R4: 10946 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 481 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 10946 | R1: 17711 | R2: 10946 | R3: 14328 | R4: 10946 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 484 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3982289 | R1: 17711 | R2: 10946 | R3: 14328 | R4: 10946 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 488 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 17711 | R2: 10946 | R3: 14328 | R4: 10946 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 491 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 17711 | R2: 10946 | R3: 14328 | R4: 10946 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 492 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 17711 | R2: 10946 | R3: 14328 | R4: 10946 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 496 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 17711 | R1: 17711 | R2: 10946 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 500 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 28657 | R1: 28657 | R2: 10946 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 504 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 17711 | R1: 28657 | R2: 17711 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 507 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3971343 | R1: 28657 | R2: 17711 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 511 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 28657 | R2: 17711 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 514 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 28657 | R2: 17711 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 515 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 28657 | R2: 17711 | R3: 14328 | R4: 17711 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 519 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 28657 | R1: 28657 | R2: 17711 | R3: 14328 | R4: 28657 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 523 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 46368 | R1: 46368 | R2: 17711 | R3: 14328 | R4: 28657 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 527 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 28657 | R1: 46368 | R2: 28657 | R3: 14328 | R4: 28657 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 530 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3953632 | R1: 46368 | R2: 28657 | R3: 14328 | R4: 28657 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 534 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 46368 | R2: 28657 | R3: 14328 | R4: 28657 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 537 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 46368 | R2: 28657 | R3: 14328 | R4: 28657 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 541 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 60696 | R1: 46368 | R2: 28657 | R3: 60696 | R4: 28657 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 542 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 60696 | R1: 46368 | R2: 28657 | R3: 60696 | R4: 28657 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 546 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 46368 | R1: 46368 | R2: 28657 | R3: 60696 | R4: 46368 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 550 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 75025 | R1: 75025 | R2: 28657 | R3: 60696 | R4: 46368 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 554 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 46368 | R1: 75025 | R2: 46368 | R3: 60696 | R4: 46368 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 557 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3924975 | R1: 75025 | R2: 46368 | R3: 60696 | R4: 46368 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 561 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 75025 | R2: 46368 | R3: 60696 | R4: 46368 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 564 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 75025 | R2: 46368 | R3: 60696 | R4: 46368 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 565 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 75025 | R2: 46368 | R3: 60696 | R4: 46368 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 569 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 75025 | R1: 75025 | R2: 46368 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 573 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 121393 | R1: 121393 | R2: 46368 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 577 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 75025 | R1: 121393 | R2: 75025 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 580 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3878607 | R1: 121393 | R2: 75025 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 584 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 121393 | R2: 75025 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 587 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 121393 | R2: 75025 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 588 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 121393 | R2: 75025 | R3: 60696 | R4: 75025 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 592 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 121393 | R1: 121393 | R2: 75025 | R3: 60696 | R4: 121393 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 596 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 196418 | R1: 196418 | R2: 75025 | R3: 60696 | R4: 121393 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 600 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 121393 | R1: 196418 | R2: 121393 | R3: 60696 | R4: 121393 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 603 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3803582 | R1: 196418 | R2: 121393 | R3: 60696 | R4: 121393 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 607 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 196418 | R2: 121393 | R3: 60696 | R4: 121393 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 610 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 196418 | R2: 121393 | R3: 60696 | R4: 121393 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 614 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 257114 | R1: 196418 | R2: 121393 | R3: 257114 | R4: 121393 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 615 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 257114 | R1: 196418 | R2: 121393 | R3: 257114 | R4: 121393 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 619 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 196418 | R1: 196418 | R2: 121393 | R3: 257114 | R4: 196418 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 623 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 317811 | R1: 317811 | R2: 121393 | R3: 257114 | R4: 196418 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 627 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 196418 | R1: 317811 | R2: 196418 | R3: 257114 | R4: 196418 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 630 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3682189 | R1: 317811 | R2: 196418 | R3: 257114 | R4: 196418 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 634 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 317811 | R2: 196418 | R3: 257114 | R4: 196418 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 637 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 317811 | R2: 196418 | R3: 257114 | R4: 196418 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 638 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 317811 | R2: 196418 | R3: 257114 | R4: 196418 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 642 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 317811 | R1: 317811 | R2: 196418 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 646 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 514229 | R1: 514229 | R2: 196418 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 650 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 317811 | R1: 514229 | R2: 317811 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 653 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3485771 | R1: 514229 | R2: 317811 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 657 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 514229 | R2: 317811 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 660 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 514229 | R2: 317811 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 661 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 514229 | R2: 317811 | R3: 257114 | R4: 317811 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 665 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 514229 | R1: 514229 | R2: 317811 | R3: 257114 | R4: 514229 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 669 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 832040 | R1: 832040 | R2: 317811 | R3: 257114 | R4: 514229 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 673 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 514229 | R1: 832040 | R2: 514229 | R3: 257114 | R4: 514229 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 676 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 3167960 | R1: 832040 | R2: 514229 | R3: 257114 | R4: 514229 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 680 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 832040 | R2: 514229 | R3: 257114 | R4: 514229 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 683 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 832040 | R2: 514229 | R3: 257114 | R4: 514229 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 687 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1089154 | R1: 832040 | R2: 514229 | R3: 1089154 | R4: 514229 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 688 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1089154 | R1: 832040 | R2: 514229 | R3: 1089154 | R4: 514229 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 692 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 832040 | R1: 832040 | R2: 514229 | R3: 1089154 | R4: 832040 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 696 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1346269 | R1: 1346269 | R2: 514229 | R3: 1089154 | R4: 832040 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 700 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 832040 | R1: 1346269 | R2: 832040 | R3: 1089154 | R4: 832040 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 703 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 2653731 | R1: 1346269 | R2: 832040 | R3: 1089154 | R4: 832040 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 707 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 1346269 | R2: 832040 | R3: 1089154 | R4: 832040 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 710 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 1346269 | R2: 832040 | R3: 1089154 | R4: 832040 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 711 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 1346269 | R2: 832040 | R3: 1089154 | R4: 832040 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 715 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1346269 | R1: 1346269 | R2: 832040 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 719 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2178309 | R1: 2178309 | R2: 832040 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 723 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 1346269 | R1: 2178309 | R2: 1346269 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 726 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 1821691 | R1: 2178309 | R2: 1346269 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 730 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 1 | R1: 2178309 | R2: 1346269 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 733 | IP: 11 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 1 | R1: 2178309 | R2: 1346269 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 734 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 1 | R1: 2178309 | R2: 1346269 | R3: 1089154 | R4: 1346269 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 738 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2178309 | R1: 2178309 | R2: 1346269 | R3: 1089154 | R4: 2178309 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 742 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3524578 | R1: 3524578 | R2: 1346269 | R3: 1089154 | R4: 2178309 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 746 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 2178309 | R1: 3524578 | R2: 2178309 | R3: 1089154 | R4: 2178309 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 749 | IP: 8 |OPCODE  BLT| ADDR: 26 | ALU_OUT: 475422 | R1: 3524578 | R2: 2178309 | R3: 1089154 | R4: 2178309 | R5: 1 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 753 | IP: 9 |OPCODE  REM| ADDR: 26 | ALU_OUT: 0 | R1: 3524578 | R2: 2178309 | R3: 1089154 | R4: 2178309 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 756 | IP: 10 |OPCODE  BNQ| ADDR: 26 | ALU_OUT: 0 | R1: 3524578 | R2: 2178309 | R3: 1089154 | R4: 2178309 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 760 | IP: 11 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 4613732 | R1: 3524578 | R2: 2178309 | R3: 4613732 | R4: 2178309 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 761 | IP: 4 |OPCODE  JMP| ADDR: 26 | ALU_OUT: 4613732 | R1: 3524578 | R2: 2178309 | R3: 4613732 | R4: 2178309 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 765 | IP: 5 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3524578 | R1: 3524578 | R2: 2178309 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 769 | IP: 6 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 5702887 | R1: 5702887 | R2: 2178309 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 773 | IP: 7 |OPCODE  ADD| ADDR: 26 | ALU_OUT: 3524578 | R1: 5702887 | R2: 3524578 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 776 | IP: 12 |OPCODE  BLT| ADDR: 26 | ALU_OUT: -1702887 | R1: 5702887 | R2: 3524578 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: True | Z: False
+    INFO:root:TICK: 778 | IP: 13 |OPCODE  SW| ADDR: 23 | ALU_OUT: 4613732 | R1: 5702887 | R2: 3524578 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 779 | IP: 14 |OPCODE  LD| ADDR: 27 | ALU_OUT: 4613732 | R1: 5702887 | R2: 4613732 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 782 | IP: 16 |OPCODE  BEQ| ADDR: 27 | ALU_OUT: 0 | R1: 5702887 | R2: 4613732 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 786 | IP: 17 |OPCODE  ADD| ADDR: 27 | ALU_OUT: 28 | R1: 5702887 | R2: 28 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 787 | IP: 18 |OPCODE  LD| ADDR: 28 | ALU_OUT: 28 | R1: 65 | R2: 28 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'A'
+    INFO:root:TICK: 789 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 65 | R1: 65 | R2: 28 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 793 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 29 | R1: 65 | R2: 29 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 796 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 65 | R1: 65 | R2: 29 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 797 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 65 | R1: 65 | R2: 29 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 798 | IP: 18 |OPCODE  LD| ADDR: 29 | ALU_OUT: 65 | R1: 110 | R2: 29 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'n'
+    INFO:root:TICK: 800 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 110 | R1: 110 | R2: 29 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 804 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 30 | R1: 110 | R2: 30 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 807 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 110 | R1: 110 | R2: 30 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 808 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 110 | R1: 110 | R2: 30 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 809 | IP: 18 |OPCODE  LD| ADDR: 30 | ALU_OUT: 110 | R1: 115 | R2: 30 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 's'
+    INFO:root:TICK: 811 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 115 | R1: 115 | R2: 30 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 815 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 31 | R1: 115 | R2: 31 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 818 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 115 | R1: 115 | R2: 31 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 819 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 115 | R1: 115 | R2: 31 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 820 | IP: 18 |OPCODE  LD| ADDR: 31 | ALU_OUT: 115 | R1: 119 | R2: 31 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'w'
+    INFO:root:TICK: 822 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 119 | R1: 119 | R2: 31 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 826 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 32 | R1: 119 | R2: 32 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 829 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 119 | R1: 119 | R2: 32 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 830 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 119 | R1: 119 | R2: 32 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 831 | IP: 18 |OPCODE  LD| ADDR: 32 | ALU_OUT: 119 | R1: 101 | R2: 32 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'e'
+    INFO:root:TICK: 833 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 32 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 837 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 33 | R1: 101 | R2: 33 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 840 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 33 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 841 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 33 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 842 | IP: 18 |OPCODE  LD| ADDR: 33 | ALU_OUT: 101 | R1: 114 | R2: 33 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'r'
+    INFO:root:TICK: 844 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 33 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 848 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 34 | R1: 114 | R2: 34 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 851 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 34 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 852 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 34 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 853 | IP: 18 |OPCODE  LD| ADDR: 34 | ALU_OUT: 114 | R1: 32 | R2: 34 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: ' '
+    INFO:root:TICK: 855 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 32 | R1: 32 | R2: 34 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 859 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 35 | R1: 32 | R2: 35 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 862 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 32 | R1: 32 | R2: 35 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 863 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 32 | R1: 32 | R2: 35 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 864 | IP: 18 |OPCODE  LD| ADDR: 35 | ALU_OUT: 32 | R1: 105 | R2: 35 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'i'
+    INFO:root:TICK: 866 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 105 | R1: 105 | R2: 35 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 870 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 36 | R1: 105 | R2: 36 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 873 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 105 | R1: 105 | R2: 36 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 874 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 105 | R1: 105 | R2: 36 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 875 | IP: 18 |OPCODE  LD| ADDR: 36 | ALU_OUT: 105 | R1: 115 | R2: 36 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 's'
+    INFO:root:TICK: 877 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 115 | R1: 115 | R2: 36 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 881 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 37 | R1: 115 | R2: 37 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 884 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 115 | R1: 115 | R2: 37 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 885 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 115 | R1: 115 | R2: 37 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 886 | IP: 18 |OPCODE  LD| ADDR: 37 | ALU_OUT: 115 | R1: 32 | R2: 37 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: ' '
+    INFO:root:TICK: 888 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 32 | R1: 32 | R2: 37 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 892 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 38 | R1: 32 | R2: 38 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 895 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 32 | R1: 32 | R2: 38 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 896 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 32 | R1: 32 | R2: 38 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 897 | IP: 18 |OPCODE  LD| ADDR: 38 | ALU_OUT: 32 | R1: 99 | R2: 38 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'c'
+    INFO:root:TICK: 899 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 38 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 903 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 39 | R1: 99 | R2: 39 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 906 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 39 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 907 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 39 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 908 | IP: 18 |OPCODE  LD| ADDR: 39 | ALU_OUT: 99 | R1: 111 | R2: 39 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'o'
+    INFO:root:TICK: 910 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 111 | R1: 111 | R2: 39 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 914 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 40 | R1: 111 | R2: 40 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 917 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 111 | R1: 111 | R2: 40 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 918 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 111 | R1: 111 | R2: 40 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 919 | IP: 18 |OPCODE  LD| ADDR: 40 | ALU_OUT: 111 | R1: 114 | R2: 40 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'r'
+    INFO:root:TICK: 921 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 40 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 925 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 41 | R1: 114 | R2: 41 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 928 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 41 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 929 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 41 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 930 | IP: 18 |OPCODE  LD| ADDR: 41 | ALU_OUT: 114 | R1: 114 | R2: 41 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'r'
+    INFO:root:TICK: 932 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 41 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 936 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 42 | R1: 114 | R2: 42 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 939 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 42 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 940 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 114 | R1: 114 | R2: 42 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 941 | IP: 18 |OPCODE  LD| ADDR: 42 | ALU_OUT: 114 | R1: 101 | R2: 42 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'e'
+    INFO:root:TICK: 943 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 42 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 947 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 43 | R1: 101 | R2: 43 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 950 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 43 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 951 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 43 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 952 | IP: 18 |OPCODE  LD| ADDR: 43 | ALU_OUT: 101 | R1: 99 | R2: 43 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 'c'
+    INFO:root:TICK: 954 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 43 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 958 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 44 | R1: 99 | R2: 44 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 961 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 44 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 962 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 44 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 963 | IP: 18 |OPCODE  LD| ADDR: 44 | ALU_OUT: 99 | R1: 116 | R2: 44 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: 't'
+    INFO:root:TICK: 965 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 116 | R1: 116 | R2: 44 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 969 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 45 | R1: 116 | R2: 45 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 972 | IP: 21 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 116 | R1: 116 | R2: 45 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 973 | IP: 17 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 116 | R1: 116 | R2: 45 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 974 | IP: 18 |OPCODE  LD| ADDR: 45 | ALU_OUT: 116 | R1: 0 | R2: 45 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:OUTPUT: ' '
+    INFO:root:TICK: 976 | IP: 19 |OPCODE  SW| ADDR: 249 | ALU_OUT: 0 | R1: 0 | R2: 45 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:TICK: 980 | IP: 20 |OPCODE  ADD| ADDR: 249 | ALU_OUT: 46 | R1: 0 | R2: 46 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: False
+    INFO:root:TICK: 983 | IP: 22 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 0 | R1: 0 | R2: 46 | R3: 4613732 | R4: 3524578 | R5: 0 | R6: 4000000 | R7: 0 | R8: 0 | N: False | Z: True
+    INFO:root:output_buffer: 'Answer is correct\x00'

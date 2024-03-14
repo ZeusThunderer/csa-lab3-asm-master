@@ -1,0 +1,13 @@
+[{"opcode": "ADD", "addr_type": 2, "args": ["2", "0", 7]},
+ {"opcode": "LD", "addr_type": 1, "args": ["1", "2"]},
+ {"opcode": "SW", "addr_type": 2, "args": ["out", "1"]},
+ {"opcode": "ADD", "addr_type": 2, "args": ["2", "2", "1"]},
+ {"opcode": "BEQ", "args": ["1", "0", 6]},
+ {"opcode": "JMP", "args": [1]},
+ {"opcode": "HLT", "args": []},
+ {"opcode": "DATA", "args": ["72"]},
+ {"opcode": "DATA", "args": ["101"]},
+ {"opcode": "DATA", "args": ["108"]},
+ {"opcode": "DATA", "args": ["108"]},
+ {"opcode": "DATA", "args": ["111"]},
+ {"opcode": "DATA", "args": ["0"]}]

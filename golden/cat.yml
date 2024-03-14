@@ -1,0 +1,57 @@
+source: |-
+section text:
+    _start:
+        ld r1,inp
+        sw out,r1
+        beq r1,r0,end
+        jmp _start
+    end:
+        hlt
+input: |-
+  Hallo Cat
+code: |-
+ [{"opcode": "LD", "addr_type": 2, "args": ["1", "inp"]},
+ {"opcode": "SW", "addr_type": 2, "args": ["out", "1"]},
+ {"opcode": "BEQ", "args": ["1", "0", 4]},
+ {"opcode": "JMP", "args": [0]},
+ {"opcode": "HLT", "args": []}]
+output: |-
+  Hallo Cat
+log: |
+  INFO:root:TICK: 0 | IP: 0 |OPCODE  None| ADDR: 0 | ALU_OUT: 0 | R1: 0 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: 0 | Z: 0
+  INFO:root:INPUT: A
+  INFO:root:TICK: 1 | IP: 1 |OPCODE  LD| ADDR: 248 | ALU_OUT: 0 | R1: 65 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: 0 | Z: 0
+  INFO:root:OUTPUT: 'A'
+  INFO:root:TICK: 3 | IP: 2 |OPCODE  SW| ADDR: 249 | ALU_OUT: 65 | R1: 65 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 6 | IP: 3 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 65 | R1: 65 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 7 | IP: 0 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 65 | R1: 65 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:INPUT: l
+  INFO:root:TICK: 8 | IP: 1 |OPCODE  LD| ADDR: 248 | ALU_OUT: 65 | R1: 108 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:OUTPUT: 'l'
+  INFO:root:TICK: 10 | IP: 2 |OPCODE  SW| ADDR: 249 | ALU_OUT: 108 | R1: 108 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 13 | IP: 3 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 108 | R1: 108 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 14 | IP: 0 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 108 | R1: 108 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:INPUT: i
+  INFO:root:TICK: 15 | IP: 1 |OPCODE  LD| ADDR: 248 | ALU_OUT: 108 | R1: 105 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:OUTPUT: 'i'
+  INFO:root:TICK: 17 | IP: 2 |OPCODE  SW| ADDR: 249 | ALU_OUT: 105 | R1: 105 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 20 | IP: 3 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 105 | R1: 105 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 21 | IP: 0 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 105 | R1: 105 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:INPUT: c
+  INFO:root:TICK: 22 | IP: 1 |OPCODE  LD| ADDR: 248 | ALU_OUT: 105 | R1: 99 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:OUTPUT: 'c'
+  INFO:root:TICK: 24 | IP: 2 |OPCODE  SW| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 27 | IP: 3 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 28 | IP: 0 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 99 | R1: 99 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:INPUT: e
+  INFO:root:TICK: 29 | IP: 1 |OPCODE  LD| ADDR: 248 | ALU_OUT: 99 | R1: 101 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:OUTPUT: 'e'
+  INFO:root:TICK: 31 | IP: 2 |OPCODE  SW| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 34 | IP: 3 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:TICK: 35 | IP: 0 |OPCODE  JMP| ADDR: 249 | ALU_OUT: 101 | R1: 101 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:INPUT:
+  INFO:root:TICK: 36 | IP: 1 |OPCODE  LD| ADDR: 248 | ALU_OUT: 101 | R1: 0 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: False
+  INFO:root:OUTPUT: ' '
+  INFO:root:TICK: 38 | IP: 2 |OPCODE  SW| ADDR: 249 | ALU_OUT: 0 | R1: 0 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: True
+  INFO:root:TICK: 41 | IP: 4 |OPCODE  BEQ| ADDR: 249 | ALU_OUT: 0 | R1: 0 | R2: 0 | R3: 0 | R4: 0 | R5: 0 | R6: 0 | R7: 0 | R8: 0 | N: False | Z: True
+  INFO:root:output_buffer: 'Alice\x00'
